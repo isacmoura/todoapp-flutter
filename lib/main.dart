@@ -21,9 +21,9 @@ class HomePage extends StatefulWidget {
 
   HomePage() {
     items = [];
-    items.add(Item(title: 'Item 1', done: false));
-    items.add(Item(title: 'Item 2', done: false));
-    items.add(Item(title: 'Item 3', done: true));
+    items.add(Item(title: 'Abacate', done: false));
+    items.add(Item(title: 'Banana', done: false));
+    items.add(Item(title: 'Salmão', done: true));
   }
   
   @override
@@ -31,11 +31,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  void add() {
+    var message = textController.text;
+
+    if(message.isEmpty) return;
+
+    setState(() {
+      widget.items.add(Item(title: message, done: false));
+
+      textController.clear();
+    });
+  }
+
+  var textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todo List'),
+        title: TextFormField(
+          controller: textController,
+          keyboardType: TextInputType.text,
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 18
+          ),
+          decoration: InputDecoration(
+            labelText: 'Nova tarefa',
+            labelStyle: TextStyle(color: Colors.white)
+          ),
+        ),
       ),
 
       body: ListView.builder(
@@ -54,7 +79,15 @@ class _HomePageState extends State<HomePage> {
             },
           );
         },
-      )
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          this.add();
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.green,
+      ),
     );
   }
 }
